@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - SportStore</title>
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/sportstore.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="store-topbar">
+        <div class="container">Miễn phí giao hàng cho đơn từ 1.000.000đ</div>
+    </div>
+
+    <header class="store-header">
+        <div class="container">
+            <a class="brand" href="@Url.Action("Index","Store")">SPORT<span>STORE</span></a>
+
+            <nav class="store-nav">
+                @Html.ActionLink("Trang chủ", "Index", "Store")
+                @Html.ActionLink("Giới thiệu", "AboutStore", "Store")
+                <a href="#">Sản phẩm</a>
+                <a href="#">Danh mục</a>
+                <a href="#">Giỏ hàng</a>
+                <a href="#">Đăng nhập</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        @RenderBody()
+    </main>
+
+    <footer class="store-footer">
+        <div class="container">
+            <strong>SPORTSTORE</strong><br />
+            Website thương mại thực hành ASP.NET MVC5
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

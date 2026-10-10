@@ -1,0 +1,52 @@
+﻿@model IEnumerable<DBSportStore.Models.ProductCardViewModel>
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_StoreLayout.cshtml";
+}
+
+<section class="hero">
+    <div>
+        <p>NEW SEASON / SPORT & ACTIVE</p>
+        <h1>Move better. Train stronger.</h1>
+        <p>Khám phá bộ sưu tập thể thao dành cho tập luyện, thi đấu và phong cách sống năng động.</p>
+        <a class="btn-brand" href="#featured-products">Mua sắm ngay</a>
+    </div>
+</section>
+
+<h2 class="section-title">Sản phẩm nổi bật</h2>
+
+<div class="store-shell" id="featured-products">
+    <aside class="category-panel">
+        <h3>Danh mục</h3>
+        <ul class="category-list">
+            <li><a href="#">Giày thể thao</a></li>
+            <li><a href="#">Áo quần thi đấu</a></li>
+            <li><a href="#">Dụng cụ thể thao</a></li>
+            <li><a href="#">Phụ kiện thể thao</a></li>
+        </ul>
+    </aside>
+
+    <section>
+        <div class="product-grid">
+            @foreach (var item in Model)
+            {
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="~/Content/images/@item.ImagePro" alt="@item.NamePro" />
+                    </div>
+                    <div class="product-body">
+                        <div style="color:#64748b;font-size:13px;">@item.CategoryName</div>
+                        <div class="product-name">@item.NamePro</div>
+                        <div class="product-description">@item.ShortDescription</div>
+                        <div class="product-price">@item.Price.ToString("#,##0") đ</div>
+                        <div class="product-actions">
+                            <a class="btn-soft" href="#">Chi tiết</a>
+                            <a class="btn-brand" href="#">Mua</a>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+    </section>
+</div>
