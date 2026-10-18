@@ -1,0 +1,28 @@
+﻿@model DBSportStore.Models.Category
+
+@{
+    ViewBag.Title = "Chi tiết danh mục";
+    Layout = "~/Views/Shared/_StoreLayout.cshtml";
+}
+
+<h2>Chi tiết danh mục</h2>
+
+<div>
+    <h4>Thông tin danh mục</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Mã danh mục</dt>
+        <dd>@Model.CategoryID</dd>
+
+        <dt>Tên danh mục</dt>
+        <dd>@Html.DisplayFor(model => model.CategoryName)</dd>
+
+        <dt>Số sản phẩm</dt>
+        <dd>@ViewBag.ProductCount</dd>
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Sửa danh mục", "Edit", new { id = Model.CategoryID }) |
+    @Html.ActionLink("Quay lại danh sách", "Index")
+</p>

@@ -18,13 +18,26 @@
             <a class="brand" href="@Url.Action("Index","Store")">SPORT<span>STORE</span></a>
 
             <nav class="store-nav">
-                @Html.ActionLink("Trang chủ", "Index", "Store")
+                @* Các trang đã có Controller *@
                 @Html.ActionLink("Giới thiệu", "AboutStore", "Store")
-                <a href="#">Sản phẩm</a>
-                <a href="#">Danh mục</a>
+                @Html.ActionLink("Trang chủ", "Index", "Store")
+
+                @* CRUD sản phẩm - phần chính B05 *@
+                @Html.ActionLink("Quản lý sản phẩm", "Index", "Products")
+
+                @* Bài tập cuối B05: chỉ đổi thành ActionLink SAU KHI đã tạo CategoriesController *@
+                @* Trước khi làm bài tập, dùng:  <a href="#">Quản lý danh mục</a> *@
+                @Html.ActionLink("Quản lý danh mục", "Index", "Categories")
+
+                @* Chức năng quản trị sẽ thực hiện khi có Login/Role Admin ở B08 *@
+                <a href="#">Quản lý khách hàng</a>
+                <a href="#">Quản lý đơn hàng</a>
+
+                @* Các chức năng sẽ thực hiện ở các buổi sau *@
                 <a href="#">Giỏ hàng</a>
                 <a href="#">Đăng nhập</a>
             </nav>
+
         </div>
     </header>
 

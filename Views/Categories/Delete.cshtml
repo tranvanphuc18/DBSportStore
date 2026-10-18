@@ -1,0 +1,49 @@
+﻿@model DBSportStore.Models.Category
+
+@{
+    ViewBag.Title = "Xóa danh mục";
+    Layout = "~/Views/Shared/_StoreLayout.cshtml";
+    int productCount = ViewBag.ProductCount == null ? 0 : (int)ViewBag.ProductCount;
+}
+
+<h2>Xóa danh mục</h2>
+
+<h3>Bạn có chắc muốn xóa danh mục này không?</h3>
+
+@* Hiển thị lỗi khi danh mục còn sản phẩm *@
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div>
+    <h4>Thông tin danh mục</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Mã danh mục</dt>
+        <dd>@Model.CategoryID</dd>
+
+        <dt>Tên danh mục</dt>
+        <dd>@Html.DisplayFor(model => model.CategoryName)</dd>
+
+        <dt>Số sản phẩm</dt>
+        <dd>@productCount</dd>
+    </dl>
+
+    @if (productCount > 0)
+    {
+        <p class="text-danger">
+            Danh mục này đang có sản phẩm nên không thể xóa.
+            Chỉ xóa được danh mục chưa có sản phẩm nào tham chiếu.
+        </p>
+        @Html.ActionLink("Quay lại danh sách", "Index")
+    }
+    else
+    {
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                <input type="submit" value="Xác nhận xóa" class="btn btn-danger" />
+                @Html.ActionLink("Quay lại danh sách", "Index")
+            </div>
+        }
+    }
+</div>

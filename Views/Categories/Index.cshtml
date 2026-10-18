@@ -1,0 +1,45 @@
+﻿@model IEnumerable<DBSportStore.Models.Category>
+
+@{
+    ViewBag.Title = "Quản lý danh mục";
+    Layout = "~/Views/Shared/_StoreLayout.cshtml";
+
+    // Dictionary CategoryID -> số sản phẩm, do CategoriesController.Index() gửi sang
+    var counts = ViewBag.ProductCounts as Dictionary<int, int>;
+}
+
+<h2 class="section-title">QUẢN LÝ DANH MỤC</h2>
+
+<p>
+    @Html.ActionLink("Thêm danh mục mới", "Create", null, new { @class = "btn-brand" })
+</p>
+
+<div style="overflow-x:auto;">
+    <table class="table table-bordered table-hover" style="background:white; vertical-align:middle;">
+        <thead>
+            <tr>
+                <th>Mã</th>
+                <th>Tên danh mục</th>
+                <th>Số sản phẩm</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="width:80px;">@item.CategoryID</td>
+                    <td><strong>@item.CategoryName</strong></td>
+                    <td>
+                        @(counts != null && counts.ContainsKey(item.CategoryID) ? counts[item.CategoryID] : 0)
+                    </td>
+                    <td style="white-space:nowrap;">
+                        @Html.ActionLink("Sửa", "Edit", new { id = item.CategoryID }) |
+                        @Html.ActionLink("Chi tiết", "Details", new { id = item.CategoryID }) |
+                        @Html.ActionLink("Xóa", "Delete", new { id = item.CategoryID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
