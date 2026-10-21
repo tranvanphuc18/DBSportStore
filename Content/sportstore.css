@@ -330,3 +330,88 @@ body {
         font-size: 13px;
     }
 }
+
+
+.catalog-toolbar {
+    margin: 20px 0 24px;
+}
+
+.catalog-search {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+    /* Dùng chung cho ô từ khóa, Giá từ, Giá đến và ô chọn sắp xếp */
+    .catalog-search input[type="text"],
+    .catalog-search input[type="number"],
+    .catalog-search select {
+        flex: 1;
+        min-width: 170px;
+        padding: 11px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        outline: none;
+        background: #ffffff;
+    }
+
+/* Thông báo không có kết quả */
+.catalog-empty {
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    color: #64748b;
+    text-align: center;
+}
+
+    .catalog-empty h3 {
+        margin-bottom: 8px;
+    }
+
+    .catalog-empty p {
+        margin-bottom: 18px;
+        color: #64748b;
+    }
+
+.result-count {
+    margin: 0 0 14px;
+    color: #64748b;
+}
+
+.store-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+}
+
+    .store-pagination a,
+    .store-pagination span {
+        min-width: 36px;
+        padding: 8px 11px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #0f172a;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .store-pagination .active {
+        background: #2563eb;
+        color: #ffffff;
+        border-color: #2563eb;
+        font-weight: 700;
+    }
+
+    .store-pagination a:hover {
+        background: #f1f5f9;
+    }
+
+.category-list li.active a {
+    background: #f0fdfa;
+    color: var(--brand-dark);
+    font-weight: 700;
+}

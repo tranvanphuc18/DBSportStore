@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DBSportStore.Models.ProductCardViewModel>
+﻿@model DBSportStore.Models.StoreHomeViewModel
 
 @{
     ViewBag.Title = "trang chủ";
@@ -14,39 +14,170 @@
     </div>
 </section>
 
+@* ===== FORM TÌM KIẾM + LỌC GIÁ + SẮP XẾP ===== *@
+<div class="catalog-toolbar">
+    @using (Html.BeginForm("Index", "Store", FormMethod.Get, new { @class = "catalog-search" }))
+    {
+        @* Đang lọc Category thì giữ categoryId khi tìm kiếm. *@
+        if (Model.SelectedCategoryId.HasValue)
+        {
+            <input type="hidden" name="categoryId" value="@Model.SelectedCategoryId" />
+        }
+
+        <input type="text"
+               name="keyword"
+               value="@Model.SearchTerm"
+               placeholder="Tìm tên hoặc mô tả sản phẩm..." />
+
+        <input type="number"
+               name="minPrice"
+               value="@Model.MinPrice"
+               min="0"
+               step="1000"
+               placeholder="Giá từ" />
+
+        <input type="number"
+               name="maxPrice"
+               value="@Model.MaxPrice"
+               min="0"
+               step="1000"
+               placeholder="Giá đến" />
+
+        @* Bài tập 2: chọn kiểu sắp xếp theo giá *@
+        <select name="sortOrder">
+            <option value="">Mới nhất</option>
+            <option value="price_asc" @(Model.SortOrder == "price_asc" ? "selected" : "")>Giá thấp → cao</option>
+            <option value="price_desc" @(Model.SortOrder == "price_desc" ? "selected" : "")>Giá cao → thấp</option>
+        </select>
+
+        <button type="submit" class="btn-brand">Tìm kiếm</button>
+        <a class="btn-soft" href="@Url.Action("Index", "Store")">Xóa lọc</a>
+    }
+</div>
+
 <h2 class="section-title">Tất cả sản phẩm</h2>
 
 <div class="store-shell" id="featured-products">
     <aside class="category-panel">
         <h3>Danh mục</h3>
         <ul class="category-list">
-            <li><a href="#">Giày thể thao</a></li>
-            <li><a href="#">Áo quần thi đấu</a></li>
-            <li><a href="#">Dụng cụ thể thao</a></li>
-            <li><a href="#">Phụ kiện thể thao</a></li>
+            @* Bài tập 3: danh mục đang chọn có class "active" *@
+            <li class="@(Model.SelectedCategoryId.HasValue ? "" : "active")">
+                @* Không truyền categoryId => xem toàn bộ sản phẩm. *@
+                <a href="@Url.Action("Index", "Store")">Tất cả sản phẩm</a>
+            </li>
+
+            @* Duyệt danh sách Category lấy động từ CSDL. *@
+            @foreach (var category in Model.Categories)
+            {
+                <li class="@(Model.SelectedCategoryId == category.CategoryID ? "active" : "")">
+                    <a href="@Url.Action("Index", "Store", new
+                    {
+                        categoryId = category.CategoryID,
+                        keyword = Model.SearchTerm,
+                        minPrice = Model.MinPrice,
+                        maxPrice = Model.MaxPrice,
+                        sortOrder = Model.SortOrder
+                    })">
+                        @category.CategoryName
+                    </a>
+                </li>
+            }
         </ul>
     </aside>
 
     <section>
-        <div class="product-grid">
-            @foreach (var item in Model)
-            {
-                <article class="product-card">
-                    <div class="product-image">
-                        <img src="~/Content/images/@item.ImagePro" alt="@item.NamePro" />
-                    </div>
-                    <div class="product-body">
-                        <div style="color:#64748b;font-size:13px;">@item.CategoryName</div>
-                        <div class="product-name">@item.NamePro</div>
-                        <div class="product-description">@item.ShortDescription</div>
-                        <div class="product-price">@item.Price.ToString("#,##0") đ</div>
-                        <div class="product-actions">
-                            <a class="btn-soft" href="#">Chi tiết</a>
-                            <a class="btn-brand" href="#">Mua</a>
+        @* Bài tập 1: số lượng kết quả *@
+        <p class="result-count">Tìm thấy <strong>@Model.TotalItems</strong> sản phẩm</p>
+
+        @* ===== DANH SÁCH SẢN PHẨM ===== *@
+        @if (Model.Products.Any())
+        {
+            <div class="product-grid">
+                @foreach (var item in Model.Products)
+                {
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="~/Content/images/@item.ImagePro" alt="@item.NamePro" />
                         </div>
-                    </div>
-                </article>
-            }
-        </div>
+                        <div class="product-body">
+                            <div style="color:#64748b;font-size:13px;">@item.CategoryName</div>
+                            <div class="product-name">@item.NamePro</div>
+                            <div class="product-description">@item.ShortDescription</div>
+                            <div class="product-price">@item.Price.ToString("#,##0") đ</div>
+                            <div class="product-actions">
+                                @* Chức năng 6: mở ProductsController.Details(id) *@
+                                @Html.ActionLink("Chi tiết", "Details", "Products",
+                                         new { id = item.ProductID },
+                                         new { @class = "btn-soft" })
+
+                                @* B07 mới làm Giỏ hàng *@
+                                <a class="btn-brand" href="#">Mua</a>
+                            </div>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="catalog-empty">
+                <h3>Không tìm thấy sản phẩm phù hợp</h3>
+                <p>Không có sản phẩm nào phù hợp với các điều kiện lọc hoặc từ khóa đang chọn.</p>
+                <a class="btn-brand" href="@Url.Action("Index", "Store")">Xem tất cả sản phẩm</a>
+            </div>
+        }
+
+        @* ===== PHÂN TRANG ===== *@
+        @if (Model.TotalPages > 1)
+        {
+            <div class="store-pagination">
+                @if (Model.CurrentPage > 1)
+                {
+                    <a href="@Url.Action("Index", "Store", new
+                    {
+                        categoryId = Model.SelectedCategoryId,
+                        keyword = Model.SearchTerm,
+                        minPrice = Model.MinPrice,
+                        maxPrice = Model.MaxPrice,
+                        sortOrder = Model.SortOrder,
+                        page = Model.CurrentPage - 1
+                    })">← Trước</a>
+                }
+
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    if (i == Model.CurrentPage)
+                    {
+                        <span class="active">@i</span>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Store", new
+                        {
+                            categoryId = Model.SelectedCategoryId,
+                            keyword = Model.SearchTerm,
+                            minPrice = Model.MinPrice,
+                            maxPrice = Model.MaxPrice,
+                            sortOrder = Model.SortOrder,
+                            page = i
+                        })">@i</a>
+                    }
+                }
+
+                @if (Model.CurrentPage < Model.TotalPages)
+                {
+                    <a href="@Url.Action("Index", "Store", new
+                    {
+                        categoryId = Model.SelectedCategoryId,
+                        keyword = Model.SearchTerm,
+                        minPrice = Model.MinPrice,
+                        maxPrice = Model.MaxPrice,
+                        sortOrder = Model.SortOrder,
+                        page = Model.CurrentPage + 1
+                    })">Sau →</a>
+                }
+            </div>
+        }
     </section>
 </div>
