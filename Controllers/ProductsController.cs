@@ -18,10 +18,6 @@ namespace DBSportStore.Controllers
         // =====================================================
         // HÀM DÙNG CHUNG
         // =====================================================
-
-        // Lưu ảnh vào Content/images, giữ tên gốc.
-        // Nếu trùng tên thì thêm -1, -2, ... để không ghi đè.
-        // Chỉ trả về TÊN FILE (không trả về đường dẫn).
         private string SaveImage(HttpPostedFileBase imageFile)
         {
             string originalFileName = Path.GetFileName(imageFile.FileName);
@@ -50,8 +46,6 @@ namespace DBSportStore.Controllers
             imageFile.SaveAs(path);
             return fileName;
         }
-
-        // Kiểm tra file ảnh. Trả về null nếu hợp lệ, ngược lại trả về câu báo lỗi.
         private string CheckImage(HttpPostedFileBase imageFile)
         {
             string extension = Path.GetExtension(imageFile.FileName).ToLower();
@@ -193,9 +187,6 @@ namespace DBSportStore.Controllers
             Product product,
             HttpPostedFileBase imageFile)
         {
-            // Lấy Product cũ để biết ảnh hiện tại.
-            // AsNoTracking: chỉ đọc, EF không theo dõi object này
-            // (nếu theo dõi sẽ bị xung đột với object product bên dưới).
             var oldProduct = db.Product
                 .AsNoTracking()
                 .FirstOrDefault(p => p.ProductID == product.ProductID);
@@ -265,14 +256,12 @@ namespace DBSportStore.Controllers
 
             try
             {
-                // Buổi 05: chỉ xóa bản ghi, KHÔNG xóa file ảnh trong Content/images
                 db.Product.Remove(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch (DbUpdateException)
             {
-                // Sản phẩm đã nằm trong OrderDetail (khóa ngoại) nên không xóa được.
                 db.Entry(product).State = EntityState.Unchanged;
                 ModelState.AddModelError("",
                     "Không thể xóa vì sản phẩm này đã có trong đơn hàng. " +
