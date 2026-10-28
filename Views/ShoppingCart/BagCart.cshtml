@@ -1,0 +1,7 @@
+﻿@* Partial View hiển thị giỏ hàng trên navbar.
+   Dữ liệu CartQty / CartTotal do ShoppingCartController.BagCart() gửi sang. *@
+<a href="@Url.Action("ShowCart", "ShoppingCart")">
+    Giỏ hàng (@ViewBag.CartQty)
+    -
+    @String.Format("{0:#,##0} đ", ViewBag.CartTotal)
+</a>

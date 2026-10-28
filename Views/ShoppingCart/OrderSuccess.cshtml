@@ -1,0 +1,89 @@
+﻿@* View nhận dữ liệu của đơn hàng vừa đặt thành công *@
+@model DBSportStore.Models.OrderPro
+@using System.Linq
+@{
+    ViewBag.Title = "Đặt hàng thành công";
+    Layout = "~/Views/Shared/_StoreLayout.cshtml";
+}
+
+<div class="order-success">
+    <div class="order-success-head">
+        <h2>Đặt hàng thành công</h2>
+        <p>Cảm ơn bạn đã đặt hàng tại SPORTSTORE.</p>
+    </div>
+
+    <div class="order-info-grid">
+
+        @* ==================== THÔNG TIN ĐƠN HÀNG ==================== *@
+        <div class="order-info-card">
+            <h3>Thông tin đơn hàng</h3>
+            <p><strong>Mã đơn:</strong> #@Model.OrderID</p>
+            <p><strong>Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+            <p><strong>Trạng thái:</strong> @Model.Status</p>
+
+            @* Bài tập 3 (nâng cao): tổng số lượng sản phẩm = Sum(Quantity) *@
+            <p>
+                <strong>Tổng số lượng:</strong>
+                @Model.OrderDetail.Sum(d => d.Quantity)
+            </p>
+
+            <p>
+                <strong>Tổng tiền:</strong>
+                <span class="product-price">@Model.TotalAmount.ToString("#,##0") đ</span>
+            </p>
+        </div>
+
+        @* ==================== THÔNG TIN GIAO HÀNG ==================== *@
+        <div class="order-info-card">
+            <h3>Thông tin giao hàng</h3>
+            <p><strong>Người nhận:</strong> @Model.RecipientName</p>
+            <p><strong>Số điện thoại:</strong> @Model.ShippingPhone</p>
+            <p><strong>Email:</strong> @Model.Customer.Email</p>
+            <p><strong>Địa chỉ giao:</strong> @Model.ShippingAddress</p>
+        </div>
+    </div>
+
+    @* ==================== CHI TIẾT ĐƠN HÀNG ==================== *@
+    <h3>Chi tiết đơn hàng</h3>
+
+    <div class="cart-table-wrap">
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detail in Model.OrderDetail)
+                {
+                    <tr>
+                        <td>
+                            <div class="cart-product">
+                                <img src="~/Content/images/@detail.Product.ImageUrl"
+                                     alt="@detail.Product.ProductName" />
+                                <strong>@detail.Product.ProductName</strong>
+                            </div>
+                        </td>
+
+                        @* UnitPrice là giá được lưu tại thời điểm đặt hàng *@
+                        <td>@detail.UnitPrice.ToString("#,##0") đ</td>
+
+                        <td>@detail.Quantity</td>
+
+                        <td class="product-price">
+                            @((detail.UnitPrice * detail.Quantity).ToString("#,##0")) đ
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="order-success-actions">
+        @Html.ActionLink("Tiếp tục mua hàng", "Index", "Store", null,
+                 new { @class = "btn-brand" })
+    </div>
+</div>

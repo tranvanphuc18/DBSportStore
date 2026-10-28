@@ -28,7 +28,8 @@
                 @Html.ActionLink("Quản lý danh mục", "Index", "Categories")
                 <a href="#">Quản lý khách hàng</a>
                 <a href="#">Quản lý đơn hàng</a>
-                <a href="#">Giỏ hàng</a>
+                @* B07: giỏ hàng hiển thị số lượng + tổng tiền từ Session *@
+                @{ Html.RenderAction("BagCart", "ShoppingCart"); }
                 <a href="#">Đăng nhập</a>
             </nav>
 

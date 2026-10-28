@@ -111,8 +111,18 @@
                                          new { id = item.ProductID },
                                          new { @class = "btn-soft" })
 
-                                @* B07 mới làm Giỏ hàng *@
-                                <a class="btn-brand" href="#">Mua</a>
+                                @* B07: nút Mua gọi ShoppingCartController.AddToCart(id) *@
+                                @* Bài tập 2: hết hàng thì hiện "Hết hàng", không gọi AddToCart *@
+                                @if (item.StockQuantity <= 0)
+                                {
+                                    <span class="btn-soft btn-disabled">Hết hàng</span>
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Mua", "AddToCart", "ShoppingCart",
+                                             new { id = item.ProductID },
+                                             new { @class = "btn-brand" })
+                                }
                             </div>
                         </div>
                     </article>

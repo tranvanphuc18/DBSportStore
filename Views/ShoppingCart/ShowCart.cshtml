@@ -1,0 +1,122 @@
+﻿@* View nhận dữ liệu giỏ hàng kiểu Cart *@
+@model DBSportStore.Models.Cart
+@using System.Linq
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_StoreLayout.cshtml";
+}
+
+<h2 class="section-title">Giỏ hàng của bạn</h2>
+
+@* Thông báo lỗi (số lượng sai, vượt tồn kho, hết hàng...) *@
+@if (TempData["CartError"] != null)
+{
+    <div class="cart-message cart-message-error">
+        @TempData["CartError"]
+    </div>
+}
+
+@if (!Model.Items.Any())
+{
+    <div class="catalog-empty">
+        <h3>Giỏ hàng đang trống</h3>
+        <p>Hãy quay lại Trang Chủ và chọn sản phẩm.</p>
+
+        @Html.ActionLink("Tiếp tục mua hàng", "Index", "Store", null,
+                 new { @class = "btn-brand" })
+    </div>
+}
+else
+{
+    <div class="cart-table-wrap">
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        @* Ảnh, tên sản phẩm và tồn kho *@
+                        <td>
+                            <div class="cart-product">
+                                <img src="~/Content/images/@item.ImageUrl"
+                                     alt="@item.ProductName" />
+                                <div>
+                                    <strong>@item.ProductName</strong>
+                                    <small>Tồn kho: @item.StockQuantity</small>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>@item.UnitPrice.ToString("#,##0") đ</td>
+
+                        @* Cập nhật số lượng *@
+                        <td>
+                            @using (Html.BeginForm("UpdateQuantity", "ShoppingCart",
+                                FormMethod.Post, new { @class = "qty-form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="productId" value="@item.ProductID" />
+                                <input type="number" name="quantity"
+                                       value="@item.Quantity"
+                                       min="1" max="@item.StockQuantity" />
+                                <button class="btn-soft" type="submit">Cập nhật</button>
+                            }
+                        </td>
+
+                        <td class="product-price">
+                            @item.LineTotal.ToString("#,##0") đ
+                        </td>
+
+                        @* Xóa sản phẩm *@
+                        <td>
+                            @using (Html.BeginForm("Remove", "ShoppingCart", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="productId" value="@item.ProductID" />
+                                <button class="btn-soft" type="submit">Xóa</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @* Tóm tắt giỏ hàng *@
+    <div class="cart-summary">
+        <div>
+            Tổng số lượng: <strong>@Model.TotalQuantity()</strong>
+        </div>
+
+        <div class="cart-total">
+            Tổng tiền:
+            <strong>@Model.TotalMoney().ToString("#,##0") đ</strong>
+        </div>
+
+        <div class="cart-summary-actions">
+            @Html.ActionLink("Tiếp tục mua hàng", "Index", "Store", null,
+                     new { @class = "btn-soft" })
+
+            @* Bài tập 1: Xóa toàn bộ giỏ hàng *@
+            @using (Html.BeginForm("ClearCart", "ShoppingCart", FormMethod.Post,
+                new { onsubmit = "return confirm('Xóa toàn bộ giỏ hàng?');" }))
+            {
+                @Html.AntiForgeryToken()
+                <button class="btn-soft" type="submit">Xóa toàn bộ giỏ hàng</button>
+            }
+
+            @* Sang trang Checkout *@
+            <a class="btn-brand" href="@Url.Action("Checkout", "ShoppingCart")">
+                Tiến hành đặt hàng
+            </a>
+        </div>
+    </div>
+}

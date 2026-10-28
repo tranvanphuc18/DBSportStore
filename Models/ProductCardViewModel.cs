@@ -8,5 +8,6 @@
         public decimal Price { get; set; }          // đơn giá
         public string ImagePro { get; set; }        // tên file ảnh trong Content/images
         public string ShortDescription { get; set; } // Bài 2: mô tả ngắn
+        public int StockQuantity { get; set; }       // B07 Bài tập 2: tồn kho để hiện "Hết hàng"
     }
 }

@@ -415,3 +415,250 @@ body {
     color: var(--brand-dark);
     font-weight: 700;
 }
+
+/* =========================================================
+   B07 - GIỎ HÀNG
+   ========================================================= */
+.cart-table-wrap { overflow-x: auto; }
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+    .cart-table th,
+    .cart-table td {
+        padding: 12px;
+        border-bottom: 1px solid #e2e8f0;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+.cart-product {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+    .cart-product img {
+        width: 72px;
+        height: 72px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .cart-product small {
+        display: block;
+        margin-top: 4px;
+        color: #64748b;
+    }
+
+.qty-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .qty-form input[type="number"] {
+        width: 75px;
+        padding: 8px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+    }
+
+.cart-summary {
+    margin-top: 22px;
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cart-total {
+    margin-top: 0;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.cart-summary-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 6px;
+}
+
+.cart-message {
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+}
+
+.cart-message-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+}
+
+.cart-message-success {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+}
+
+/* Bài tập 2: nút "Hết hàng" (không bấm được) */
+.btn-disabled {
+    opacity: .6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* =========================================================
+   B07 - CHECKOUT
+   ========================================================= */
+.checkout-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(360px, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.checkout-form,
+.checkout-summary {
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+    .checkout-form h3,
+    .checkout-summary h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+.checkout-row {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+    margin-bottom: 16px;
+}
+
+.checkout-label {
+    padding-top: 10px;
+    font-weight: 600;
+}
+
+.checkout-input .form-control-modern {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+}
+
+    .checkout-input .form-control-modern:focus {
+        outline: none;
+        border-color: #2563eb;
+    }
+
+.checkout-row-action { margin-top: 8px; }
+
+.checkout-product {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.checkout-product-image img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 9px;
+    border: 1px solid #e2e8f0;
+}
+
+.checkout-product-info strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.checkout-product-detail {
+    margin-top: 3px;
+    font-size: 13px;
+    color: #64748b;
+}
+
+    .checkout-product-detail span { color: #0f172a; }
+
+.checkout-product-total {
+    font-weight: 700;
+    color: #dc2626;
+    white-space: nowrap;
+}
+
+.checkout-grand-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 2px solid #e2e8f0;
+    font-size: 18px;
+}
+
+    .checkout-grand-total strong { color: #dc2626; }
+
+@media (max-width: 900px) {
+    .checkout-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+    .checkout-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .checkout-label { padding-top: 0; }
+
+    .checkout-product { grid-template-columns: 60px minmax(0, 1fr); }
+
+    .checkout-product-total { grid-column: 2; }
+}
+
+/* =========================================================
+   B07 - ORDER SUCCESS
+   ========================================================= */
+.order-success { padding: 22px 0; }
+
+.order-success-head { margin-bottom: 20px; }
+
+.order-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.order-info-card {
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+
+    .order-info-card h3 { margin-top: 0; }
+
+.order-success-actions { margin-top: 20px; }
+
+@media (max-width: 760px) {
+    .order-info-grid { grid-template-columns: 1fr; }
+}

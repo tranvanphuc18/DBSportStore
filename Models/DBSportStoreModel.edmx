@@ -43,6 +43,8 @@
           <Property Name="ShippingAddress" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="RecipientName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ShippingPhone" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -229,6 +231,8 @@
           <Property Name="ShippingAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RecipientName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ShippingPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_OrderPro_Customer" FromRole="OrderPro" ToRole="Customer" />
           <NavigationProperty Name="OrderDetail" Relationship="Self.FK_OrderDetail_OrderPro" FromRole="OrderPro" ToRole="OrderDetail" />
         </EntityType>
@@ -420,6 +424,8 @@
                 <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
                 <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RecipientName" ColumnName="RecipientName" />
+                <ScalarProperty Name="ShippingPhone" ColumnName="ShippingPhone" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
